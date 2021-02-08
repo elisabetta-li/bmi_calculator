@@ -8,12 +8,24 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../constants.dart';
 
+enum Gender {
+  male,
+  female,
+}
+
 class InputPage extends StatefulWidget {
+
   @override
   _InputPageState createState() => _InputPageState();
 }
 
 class _InputPageState extends State<InputPage> {
+
+  Gender selectedGender;
+  int height = 180;
+  int weight = 60;
+  int age = 20;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,8 +41,13 @@ class _InputPageState extends State<InputPage> {
                   Expanded(
                     child: ReusableCard(
                       onPress: () {
-
+                        setState(() {
+                          selectedGender = Gender.male;
+                        });
                       },
+                      colour: selectedGender == Gender.male
+                          ? kActiveCardColour
+                          : kInactiveCardColour,
                       cardChild: IconContent(
                         icon: FontAwesomeIcons.mars,
                         label: 'MALE',
@@ -40,7 +57,13 @@ class _InputPageState extends State<InputPage> {
                   Expanded(
                     child: ReusableCard(
                       onPress: () {
+                        setState(() {
+                          selectedGender = Gender.female;
+                        });
                       },
+                      colour: selectedGender == Gender.female
+                          ? kActiveCardColour
+                          : kInactiveCardColour,
 
                       cardChild: IconContent(
                         icon: FontAwesomeIcons.venus,
@@ -66,7 +89,7 @@ class _InputPageState extends State<InputPage> {
                     textBaseline: TextBaseline.alphabetic,
                     children: <Widget>[
                       Text(
-                        '160',
+                        height.toString(),
                         style: kNumberTextStyle,
                       ),
                       Text(
@@ -87,10 +110,13 @@ class _InputPageState extends State<InputPage> {
                       RoundSliderOverlayShape(overlayRadius: 30.0),
                     ),
                     child: Slider(
-                      value: 160.0,
+                      value: height.toDouble(),
                       min: 120.0,
                       max: 220.0,
                       onChanged: (double newValue) {
+                        setState(() {
+                          height = newValue.round();
+                        });
                       },
                     ),
                   ),
@@ -112,7 +138,7 @@ class _InputPageState extends State<InputPage> {
                           style: kLabelTextStyle,
                         ),
                         Text(
-                          '60',
+                          weight.toString(),
                           style: kNumberTextStyle,
                         ),
                         Row(
@@ -121,7 +147,9 @@ class _InputPageState extends State<InputPage> {
                             RoundIconButton(
                                 icon: FontAwesomeIcons.minus,
                                 onPressed: () {
-
+                                  setState(() {
+                                    weight--;
+                                  });
                                 }),
                             SizedBox(
                               width: 10.0,
@@ -129,6 +157,9 @@ class _InputPageState extends State<InputPage> {
                             RoundIconButton(
                               icon: FontAwesomeIcons.plus,
                               onPressed: () {
+                                setState(() {
+                                  weight++;
+                                });
                               },
                             ),
                           ],
@@ -148,7 +179,7 @@ class _InputPageState extends State<InputPage> {
                           style: kLabelTextStyle,
                         ),
                         Text(
-                          '20',
+                          age.toString(),
                           style: kNumberTextStyle,
                         ),
                         Row(
@@ -157,6 +188,11 @@ class _InputPageState extends State<InputPage> {
                             RoundIconButton(
                               icon: FontAwesomeIcons.minus,
                               onPressed: () {
+                                setState(
+                                      () {
+                                    age--;
+                                  },
+                                );
                               },
                             ),
                             SizedBox(
@@ -165,7 +201,9 @@ class _InputPageState extends State<InputPage> {
                             RoundIconButton(
                                 icon: FontAwesomeIcons.plus,
                                 onPressed: () {
-
+                                  setState(() {
+                                    age++;
+                                  });
                                 })
                           ],
                         )
